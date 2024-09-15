@@ -1,0 +1,12 @@
+{
+  "name": "random-name-picker",
+  "version": "1.0.0",
+  "description": "A web application for randomly picking names with customizable settings.",
+  "main": "script.js",
+  "scripts": {
+    "start": "live-server"
+  },
+  "keywords": ["lucky draw", "random name picker", "web app"],
+  "author": "",
+  "license": "ISC"
+}

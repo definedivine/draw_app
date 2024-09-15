@@ -1,0 +1,425 @@
+/* Import Google Fonts */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap');
+
+/* CSS Variables */
+:root {
+  --gradient-start: #38b2ac; /* teal-400 */
+  --gradient-end: #4299e1;   /* blue-500 */
+  --text-primary: #ffffff;
+  --text-secondary: rgba(255, 255, 255, 0.7);
+  --background-blur: rgba(255, 255, 255, 0.1);
+  --border-color: rgba(255, 255, 255, 0.2);
+  --button-bg: #ffffff;
+  --button-text: #319795; /* teal-600 */
+  --button-hover: rgba(255, 255, 255, 0.9);
+  --transition-speed: 0.3s;
+}
+
+/* Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  color: var(--text-primary);
+  background: linear-gradient(to bottom right, var(--gradient-start), var(--gradient-end));
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Container */
+.app-container {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Header */
+.app-header {
+  width: 100%;
+  max-width: 800px;
+  position: relative;
+}
+
+.title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  text-align: center;
+  margin-bottom: 2rem;
+  font-family: 'Inter', sans-serif;
+}
+
+@media (min-width: 768px) {
+  .title {
+    font-size: 3rem;
+  }
+}
+
+/* Settings Button */
+.settings-btn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: transparent;
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.settings-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* Main Content */
+.app-main {
+  width: 100%;
+  max-width: 800px;
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Card */
+.card {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 100%;
+  margin-bottom: 2rem;
+}
+
+.drawn-name {
+  font-size: 3rem;
+  font-weight: bold;
+  margin-bottom: 2rem;
+  min-height: 4rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Playfair Display', serif;
+  text-align: center;
+  animation: fadeInUp 0.5s ease-out;
+}
+
+@media (min-width: 768px) {
+  .drawn-name {
+    font-size: 4rem;
+  }
+}
+
+/* Buttons */
+.draw-btn,
+.settings-panel .btn {
+  background-color: var(--button-bg);
+  color: var(--button-text);
+  border: none;
+  padding: 0.75rem 1.5rem;
+  font-size: 1.25rem;
+  font-weight: bold;
+  border-radius: 0.75rem;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+  text-align: center;
+  display: block;
+  margin: 0 auto;
+}
+
+/* Pressed Button Effect */
+.draw-btn:active {
+    transform: scale(0.95);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
+  }
+  
+
+.draw-btn:hover,
+.settings-panel .btn:hover {
+  background-color: var(--button-hover);
+}
+
+.clear-history-btn {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color var(--transition-speed);
+}
+
+.clear-history-btn:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+}
+
+/* History */
+.history {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  padding: 2rem;
+  width: 100%;
+}
+
+.history-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.history h2 {
+  font-size: 1.5rem;
+}
+
+#history-list {
+  list-style-type: disc;
+  padding-left: 1.5rem;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+#history-list li {
+  margin-bottom: 0.5rem;
+  animation: fadeInLeft 0.3s ease-out;
+}
+
+/* Footer */
+.app-footer {
+  margin-top: 2rem;
+}
+
+.app-footer a {
+  color: var(--text-primary);
+  text-decoration: none;
+  font-size: 1rem;
+}
+
+.app-footer a:hover {
+  text-decoration: underline;
+}
+
+/* Settings Overlay */
+.settings-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  backdrop-filter: blur(5px);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity var(--transition-speed), visibility var(--transition-speed);
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.settings-overlay.open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.settings-panel {
+  background-color: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  width: 90%;
+  max-width: 500px;
+  padding: 2rem;
+  border-radius: 1rem;
+  color: var(--text-primary);
+  max-height: 90%;
+  overflow-y: auto;
+}
+
+/* Form Elements */
+.settings-panel label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+}
+
+.settings-panel input[type="number"],
+.settings-panel textarea,
+.settings-panel input[type="file"] {
+  width: 100%;
+  background-color: rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--border-color);
+  color: var(--text-primary);
+  padding: 0.75rem;
+  border-radius: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.settings-panel textarea {
+  min-height: 120px;
+}
+
+.settings-panel textarea::placeholder,
+.settings-panel input::placeholder {
+  color: var(--text-secondary);
+}
+
+.switch-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+}
+
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 3rem;
+  height: 1.5rem;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.2);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: var(--transition-speed);
+  border-radius: 1.5rem;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 1rem;
+  width: 1rem;
+  left: 0.25rem;
+  bottom: 0.25rem;
+  background-color: white;
+  transition: var(--transition-speed);
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: var(--button-text);
+}
+
+input:checked + .slider:before {
+  transform: translateX(1.5rem);
+}
+
+.settings-panel .btn {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.close-panel {
+  background-color: transparent;
+  color: var(--text-primary);
+  border: none;
+  font-size: 1rem;
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.close-panel:hover {
+  color: var(--button-hover);
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-1rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Media Queries */
+@media (max-width: 640px) {
+  .title {
+    font-size: 2rem;
+  }
+
+  .drawn-name {
+    font-size: 2.5rem;
+  }
+
+  .draw-btn {
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+  }
+
+  .history h2 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Rotating Text Animation */
+@keyframes rotateText {
+    0% {
+      transform: translateY(100%);
+      opacity: 0;
+    }
+    50% {
+      transform: translateY(0%);
+      opacity: 1;
+    }
+    100% {
+      transform: translateY(-100%);
+      opacity: 0;
+    }
+  }
+  
+  .rotating-text {
+    animation: rotateText 0.5s ease-in-out;
+  }
+  
+  /* Final Drawn Name Animation */
+  @keyframes finalName {
+    0% {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .drawn-name-animation {
+    animation: finalName 0.5s ease-in-out;
+  }
+  
+  

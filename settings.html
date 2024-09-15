@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Settings</title>
+    <!-- Include Google Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <!-- Link to the updated CSS file -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Settings Panel -->
+    <div class="settings-container">
+        <header class="settings-header">
+            <h1 class="title">Settings</h1>
+        </header>
+
+        <main class="settings-main">
+            <aside class="settings-panel">
+                <p>Select your settings and draw a lucky name.</p>
+
+                <!-- Name List -->
+                <label for="names">Name list:</label>
+                <textarea id="names" class="textarea" placeholder="Enter names separated by a newline"></textarea>
+                <p class="error-message" hidden>Maximum of 500 names allowed.</p>
+
+                <!-- File Upload -->
+                <label for="fileUpload">Upload names via file:</label>
+                <input type="file" id="fileUpload" accept=".txt,.csv">
+
+                <!-- Timer Setting -->
+                <label for="drawingTime">Timer setting (seconds):</label>
+                <input type="number" id="drawingTime" class="input" min="1" max="10" step="1" value="5">
+
+                <!-- Remove Winner Toggle -->
+                <div class="switch-container">
+                    <label for="removeWinnerToggle">Remove winner from list:</label>
+                    <label class="switch">
+                        <input type="checkbox" id="removeWinnerToggle">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- Settings Actions -->
+                <button class="btn" id="save">✔️ Save Settings</button>
+                <button class="close-panel" id="closeSettings">Close</button>
+            </aside>
+        </main>
+    </div>
+
+    <!-- Include the updated JavaScript file -->
+    <script>
+        // Reference to elements
+        const namesTextarea = document.getElementById('names');
+        const errorMessage = document.querySelector('.error-message');
+        const saveButton = document.getElementById('save');
+        const removeWinnerToggle = document.getElementById('removeWinnerToggle');
+        const fileUpload = document.getElementById('fileUpload');
+        const drawingTimeInput = document.getElementById('drawingTime');
+        const closeSettingsButton = document.getElementById('closeSettings');
+
+        // Load existing settings from localStorage
+        function loadSettings() {
+            const names = JSON.parse(localStorage.getItem('names') || '[]');
+            namesTextarea.value = names.join('\n');
+
+            const drawingTime = localStorage.getItem('drawingTime') || '5';
+            drawingTimeInput.value = drawingTime;
+
+            const removeWinner = localStorage.getItem('removeWinner') === 'true';
+            removeWinnerToggle.checked = removeWinner;
+        }
+
+        // Save settings to localStorage
+        function saveSettings() {
+            const names = namesTextarea.value.split('\n').filter(name => name.trim() !== '');
+            if (names.length > 500) {
+                errorMessage.hidden = false;
+                return;
+            }
+            errorMessage.hidden = true;
+            if (names.length === 0) {
+                alert("Please enter names in the names container.");
+                return;
+            }
+            localStorage.setItem('names', JSON.stringify(names));
+            localStorage.setItem('drawingTime', drawingTimeInput.value);
+            localStorage.setItem('removeWinner', removeWinnerToggle.checked);
+            alert("Settings saved successfully!");
+        }
+
+        // Handle file upload
+        fileUpload.addEventListener('change', (event) => {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.size > 100000) { // Limit file size to 100KB
+                    alert("File is too large. Please upload a file smaller than 100KB.");
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (e) => {
+                    const fileNames = e.target.result.split(/\r?\n/).filter(name => name.trim() !== '');
+                    namesTextarea.value = fileNames.join('\n');
+                };
+                reader.readAsText(file);
+            }
+        });
+
+        // Event listener for the Save button
+        saveButton.addEventListener('click', saveSettings);
+
+        // Event listener for the Close button
+        closeSettingsButton.addEventListener('click', () => {
+            window.location.href = 'index.html';
+        });
+
+        // Load settings on page load
+        window.addEventListener('load', loadSettings);
+    </script>
+</body>
+</html>
